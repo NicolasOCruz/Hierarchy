@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Product } from '../../shared/models/product.model';
 import { Level } from '../../shared/models/level.model';
-import { FileComponent } from "../file/file.component";
+import { FileComponent } from '../file/file.component';
+import { LevelComponent } from '../level/level.component';
 
 @Component({
-  selector: 'app-level',
+  selector: 'app-level-list',
   standalone: true,
-  imports: [FileComponent],
-  templateUrl: './level.component.html',
-  styleUrl: './level.component.css'
+  imports: [FileComponent, LevelComponent],
+  templateUrl: './level-list.component.html',
+  styleUrl: './level-list.component.css'
 })
-export class LevelComponent implements OnInit {
+export class LevelListComponent implements OnInit {
 
   @Input('level') level!: Level | null;
   @Input('title') title!: string | null;

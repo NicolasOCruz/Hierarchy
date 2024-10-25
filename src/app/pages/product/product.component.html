@@ -1,41 +1,15 @@
-@if (selectedProduct && selectedProduct.levels) {
-    <app-level [levels]="selectedProduct.levels" [title]="selectedProduct.name"></app-level>
-} @else if (selectedProduct) {
-    @for (file of selectedProduct.files; track $index) {
+<div class="container col-4">
+    <h1>{{ product?.name }}</h1>
+   @if (hasFiles()) {
+    @for (file of product?.files; track $index) {
         <div class="container col-4">
-            <h1>{{ selectedProduct.name }}</h1>
-            <ul>
-                <li>
-                <div class="row">
-                    <div class="col-8">
-                    {{ file.name }}
-                    </div>
-                    <div class="col-4">
-                    <button>Open</button>
-                    </div>
-                </div>
-                </li>
-                <hr>
-            </ul>
+            <app-file [file]="file"></app-file>
         </div>
     }
-} @else {
-    <div class="container col-4">
-        <h1>Produtos</h1>
-        @for (product of products; track $index) {
-          <ul>
-            <li>
-              <div class="row">
-                <div class="col-8">
-                  {{ product.name }}
-                </div>
-                <div class="col-4">
-                  <button (click)="openProduct(product)">></button>
-                </div>
-              </div>
-            </li>
-            <hr>
-          </ul>
-        }
-      </div>
-}
+   } @else {
+    @for (level of product?.levels; track $index) {
+        <app-level-list [level]="level"></app-level-list>
+    }
+   }
+</div>
+

@@ -1,0 +1,23 @@
+@if (!selectedProduct) {
+    <div class="container col-4">
+        <h1>Produtos</h1>
+        @for (product of products; track $index) {
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col-8">
+                    {{ product.name }}
+                  </div>
+                  <div class="col-4">
+                    <button (click)="openProduct(product)">></button>
+                  </div>
+                </div>
+              </li>
+              <hr>
+            </ul>
+        }
+    </div>
+} @else {
+    <button (click)="goBack()"><</button>
+    <app-product [product]="selectedProduct"></app-product>
+}

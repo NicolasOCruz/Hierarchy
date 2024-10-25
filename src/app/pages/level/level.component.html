@@ -1,36 +1,43 @@
-<div class="container col-4">
-    <h1>{{ title }}</h1>
-    @if (selectedLevel) {
-        @if (selectedLevel.sublevels) {
-            @for (sublevel of selectedLevel.sublevels; track sublevel.name) {
-                @if (sublevel.files) {
-                    @for (file of selectedLevel.files; track $index) {
-                        <app-file [file]="file"></app-file>
-                    }
-                } @else {
-                    <app-level [levels]="sublevel.sublevels" [title]="sublevel.name"></app-level>
-                }
-            }
-        } @else {
-            @for (file of selectedLevel.files; track $index) {
-                <app-file [file]="file"></app-file>
-            }
-        } 
-    } @else {
-        @for (level of levels; track $index) {
-            <ul>
-                <li>
-                    <div class="row">
-                        <div class="col-8">
-                        {{ level.name }}
-                        </div>
-                        <div class="col-4">
-                        <button (click)="searchLevel(level)">></button>
-                        </div>
-                    </div>
-                </li>
-                <hr>
-            </ul>
+<!--h1>{{ level?.name }}</h1>
+@if (!selectedLevel && !level?.files) {
+    <ul>
+        @for (sublevel of level?.sublevels; track $index) {
+            <li>
+                {{ sublevel.name }}
+            </li>
         }
+    </ul>
+}
+
+
+@if (selectedLevel && !level?.files) {
+    <button (click)="goBack()"><</button>
+    <app-level [level]="selectedLevel"></app-level>
+} 
+
+
+@if (selectedLevel && level?.files) {
+    @for (file of level?.files; track $index) {
+        <div class="container col-4">
+            <app-file [file]="file"></app-file>
+        </div>
     }
-  </div>
+}
+
+-->
+
+<div class="container col-4">
+    <h1>{{ level?.name }}</h1>
+   @if (hasFiles()) {
+    @for (file of level?.files; track $index) {
+        <div class="container col-4">
+            <app-file [file]="file"></app-file>
+        </div>
+    }
+   } @else {
+    @for (level of level?.sublevels; track $index) {
+        <app-level [level]="level"></app-level>
+    }
+   }
+</div>
+
