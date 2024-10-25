@@ -1,5 +1,5 @@
 @if (selectedProduct && selectedProduct.levels) {
-    <app-hierarchy [levels]="selectedProduct.levels" [title]="selectedProduct.name"></app-hierarchy>
+    <app-level [levels]="selectedProduct.levels" [title]="selectedProduct.name"></app-level>
 } @else if (selectedProduct) {
     @for (file of selectedProduct.files; track $index) {
         <div class="container col-4">

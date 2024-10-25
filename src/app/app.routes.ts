@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { HierarchyComponent } from './pages/hierarchy/hierarchy.component';
-import { AppComponent } from './app.component';
+import { LevelComponent } from './pages/level/level.component';
 import { ProductComponent } from './pages/product/product.component';
 
 export const routes: Routes = [
@@ -15,7 +14,7 @@ export const routes: Routes = [
     },
     {
         path: 'level',
-        component: HierarchyComponent
+        component: LevelComponent
     },
     {
         path: '**',

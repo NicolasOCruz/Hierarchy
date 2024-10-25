@@ -2,12 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Product } from '../../shared/models/product.model';
 import { Router } from '@angular/router';
 import { Level } from '../../shared/models/level.model';
-import { HierarchyComponent } from "../hierarchy/hierarchy.component";
+import { LevelComponent } from "../level/level.component";
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [HierarchyComponent],
+  imports: [LevelComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })

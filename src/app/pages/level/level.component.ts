@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Product } from '../../shared/models/product.model';
 import { Level } from '../../shared/models/level.model';
+import { FileComponent } from "../file/file.component";
 
 @Component({
-  selector: 'app-hierarchy',
+  selector: 'app-level',
   standalone: true,
-  imports: [],
-  templateUrl: './hierarchy.component.html',
-  styleUrl: './hierarchy.component.css'
+  imports: [FileComponent],
+  templateUrl: './level.component.html',
+  styleUrl: './level.component.css'
 })
-export class HierarchyComponent implements OnInit {
+export class LevelComponent implements OnInit {
 
   @Input('levels') levels?: Level[];
   @Input('title') title?: string;
