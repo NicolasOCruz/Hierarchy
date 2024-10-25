@@ -12,7 +12,7 @@ import { FileComponent } from '../file/file.component';
 export class LevelListComponent implements OnInit {
 
   @Input('levels') levels?: Level[] | null;
-  @Input('title') title!: string | null;
+  @Input('title') title?: string | null;
 
   selectedLevel!: Level | null;
 
@@ -20,6 +20,7 @@ export class LevelListComponent implements OnInit {
   }
 
   searchLevel(level: Level) {
+    console.log(level)
     this.selectedLevel = level;
     this.title = level.name;
   }
@@ -29,8 +30,11 @@ export class LevelListComponent implements OnInit {
     this.title = null;
   }
 
+  hasLevels(level: Level) : boolean {
+    return level.sublevels ? level.sublevels?.length > 0 : false;
+  }
+
   hasFiles(level: Level) : boolean {
-    console.log(level)
     return level?.files ? level.files.length > 0 : false;
   }
 }

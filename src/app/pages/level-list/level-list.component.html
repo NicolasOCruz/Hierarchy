@@ -1,26 +1,43 @@
 <div class="container col-4">
     <h1>{{ title }}</h1>
-    @for (level of levels; track $index) {
-        @if (hasFiles(level)) {
-         @for (file of level?.files; track $index) {
-             <app-file [file]="file"></app-file>
-         }
+    @if (selectedLevel) {
+        @if (hasFiles(selectedLevel)) {
+            @for (file of selectedLevel.files; track $index) {
+                <!-- Renderize arquivos do nível selecionado -->
+                <app-file [file]="file"></app-file>
+            }
         } @else {
-         @for (sublevel of level?.sublevels; track $index) {
-             <ul>
-               <li>
-                 <div class="row">
-                   <div class="col-8">
-                     {{ sublevel.name }}
-                   </div>
-                   <div class="col-4">
-                     <button (click)="searchLevel(sublevel)">></button>
-                   </div>
-                 </div>
-               </li>
-               <hr>
-             </ul>
-         }
+            @for (sublevel of selectedLevel.sublevels; track $index) {
+                <ul>
+                    <li>
+                        <div class="row">
+                            <div class="col-8">
+                                {{ sublevel.name }}
+                            </div>
+                            <div class="col-4">
+                                <button (click)="searchLevel(sublevel)">></button>
+                            </div>
+                        </div>
+                        <hr>
+                    </li>
+                </ul>
+            }
         }
-}
+    } @else {
+        @for (level of levels; track $index) {
+            <ul>
+                <li>
+                    <div class="row">
+                        <div class="col-8">
+                            {{ level.name }}
+                        </div>
+                        <div class="col-4">
+                            <button (click)="searchLevel(level)">></button>
+                        </div>
+                    </div>
+                    <hr>
+                </li>
+            </ul>
+        }
+    }
 </div>
