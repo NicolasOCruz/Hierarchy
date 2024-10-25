@@ -18,6 +18,15 @@
         }
     </div>
 } @else {
-    <button (click)="goBack()"><</button>
-    <app-product [product]="selectedProduct"></app-product>
+  <button (click)="goBack()"><</button>
+    @if (hasFiles(selectedProduct)) {
+      <div class="container col-4">
+        <h1>{{ selectedProduct.name }}</h1>
+        @for (file of selectedProduct?.files; track $index) {
+          <app-file [file]="file"></app-file>
+        }
+      </div>
+    } @else {
+      <app-level-list [levels]="selectedProduct.levels" [title]="selectedProduct.name"></app-level-list>
+    }
 }

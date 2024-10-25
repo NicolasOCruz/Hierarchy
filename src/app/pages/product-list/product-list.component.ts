@@ -1,12 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Product } from '../../shared/models/product.model';
 import { Router } from '@angular/router';
-import { ProductComponent } from '../product/product.component';
+import { LevelListComponent } from "../level-list/level-list.component";
+import { Level } from '../../shared/models/level.model';
+import { FileComponent } from '../file/file.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [ProductComponent],
+  imports: [LevelListComponent, FileComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -32,15 +34,30 @@ export class ProductListComponent implements OnInit {
       name: "Cartão",
       levels: [
         {
-          name: "Fatura",
-          files: [
+          name: "Consignado",
+          sublevels: [
             {
-              name: "Fatura PDF"
+              name: "Contratação Crédito Consignado",
+              sublevels: [
+                {
+                  name: "Contrato Crédito Consignado",
+                  sublevels: [
+                    {
+                      name: "Termo",
+                      files: [
+                        {
+                          name: "Contrato PDF"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
-          ]
+          ],
         },
         {
-          name: "Parcelamento",
+          name: "Fatura",
           files: [
             {
               name: "Contrato de Parcelas PDF"
@@ -97,6 +114,7 @@ export class ProductListComponent implements OnInit {
         }
       ]
     })
+    console.log(this.products)
   }
 
   openProduct(product: Product) : void {
@@ -105,5 +123,9 @@ export class ProductListComponent implements OnInit {
 
   goBack() : void {
     this.selectedProduct = null;
+  }
+  
+  hasFiles(level: Level) : boolean {
+    return level?.files ? level.files.length > 0 : false;
   }
 }

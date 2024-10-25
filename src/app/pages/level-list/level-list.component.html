@@ -1,42 +1,26 @@
-<h1>{{ level?.name }}</h1>
-<!--@if (!selectedLevel && !level?.files) {
-    <ul>
-        @for (sublevel of level?.sublevels; track $index) {
-            <li>
-                {{ sublevel.name }}
-            </li>
+<div class="container col-4">
+    <h1>{{ title }}</h1>
+    @for (level of levels; track $index) {
+        @if (hasFiles(level)) {
+         @for (file of level?.files; track $index) {
+             <app-file [file]="file"></app-file>
+         }
+        } @else {
+         @for (sublevel of level?.sublevels; track $index) {
+             <ul>
+               <li>
+                 <div class="row">
+                   <div class="col-8">
+                     {{ sublevel.name }}
+                   </div>
+                   <div class="col-4">
+                     <button (click)="searchLevel(sublevel)">></button>
+                   </div>
+                 </div>
+               </li>
+               <hr>
+             </ul>
+         }
         }
-    </ul>
 }
-
-
-@if (selectedLevel && !level?.files) {
-    <button (click)="goBack()"><</button>
-    <app-level [level]="selectedLevel"></app-level>
-} 
-
-
-@if (selectedLevel && level?.files) {
-    @for (file of level?.files; track $index) {
-        <div class="container col-4">
-            <app-file [file]="file"></app-file>
-        </div>
-    }
-}-->
-
-@if (!selectedLevel) {
-    <ul>
-        @for (sublevel of level?.sublevels; track $index) {
-            <div class="col-8">
-                {{ sublevel?.name }}
-            </div>
-            <div class="col-4">
-                <button (click)="searchLevel(sublevel)">></button>
-            </div>
-        }
-    </ul>
-    <hr>
-} @else {
-    <button (click)="goBack()"><</button>
-    <app-level [level]="selectedLevel"></app-level>
-}
+</div>

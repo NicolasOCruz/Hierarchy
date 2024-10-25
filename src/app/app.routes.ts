@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-import { LevelComponent } from './pages/level/level.component';
-import { ProductComponent } from './pages/product/product.component';
 import { ProductListComponent } from './pages/product-list/product-list.component';
+import { LevelListComponent } from './pages/level-list/level-list.component';
 
 export const routes: Routes = [
     {
@@ -15,7 +14,7 @@ export const routes: Routes = [
     },
     {
         path: 'level',
-        component: LevelComponent
+        component: LevelListComponent
     },
     {
         path: '**',
