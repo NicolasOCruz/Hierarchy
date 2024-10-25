@@ -8,36 +8,12 @@
             }
         } @else {
             @for (sublevel of selectedLevel.sublevels; track $index) {
-                <ul>
-                    <li>
-                        <div class="row">
-                            <div class="col-8">
-                                {{ sublevel.name }}
-                            </div>
-                            <div class="col-4">
-                                <button (click)="searchLevel(sublevel)">></button>
-                            </div>
-                        </div>
-                        <hr>
-                    </li>
-                </ul>
+                <app-level [level]="sublevel" (onSelect)="searchLevel($event)"></app-level>
             }
         }
     } @else {
         @for (level of levels; track $index) {
-            <ul>
-                <li>
-                    <div class="row">
-                        <div class="col-8">
-                            {{ level.name }}
-                        </div>
-                        <div class="col-4">
-                            <button (click)="searchLevel(level)">></button>
-                        </div>
-                    </div>
-                    <hr>
-                </li>
-            </ul>
+            <app-level [level]="level" (onSelect)="searchLevel($event)"></app-level>
         }
     }
 </div>
