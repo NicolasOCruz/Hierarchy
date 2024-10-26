@@ -23,6 +23,9 @@ export class NavigationService {
 
   static returnTitle: Subject<any> = new Subject();
 
+  static productListReturn: Subject<any> = new Subject();
+
+
   addPath(path: string, level: any, title: string) {
     if (path.trim()) {
       const currentRoute = this.router.url;
@@ -52,9 +55,7 @@ export class NavigationService {
         const title = NavigationService.titleStack.get(NavigationService.pathStack[NavigationService.pathStack.length - 1]) || '';
         const route = NavigationService.pathStack[NavigationService.pathStack.length - 1];
 
-        if (selectedLevel) {
-          NavigationService.returnLevel.next(selectedLevel);
-        }
+        NavigationService.returnLevel.next({level: selectedLevel, firstRoute: !route});
 
         if (title) {
           NavigationService.returnTitle.next(title);
@@ -63,7 +64,7 @@ export class NavigationService {
         if (route) {
           this.router.navigate([route], { relativeTo: this.activatedRoute });
         } else {
-          this.router.navigate(['/home'], { replaceUrl: true})
+          this.router.navigate(['/home'], { replaceUrl: true })
         }
       }
     }

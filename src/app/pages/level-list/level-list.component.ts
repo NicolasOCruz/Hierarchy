@@ -5,6 +5,7 @@ import { LevelComponent } from '../level/level.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SanitizeRouteService } from '../../shared/services/sanitize-route.service';
 import { NavigationService } from '../../shared/services/navigation.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-level-list',
@@ -28,7 +29,11 @@ export class LevelListComponent implements OnInit {
   ngOnInit(): void {
     NavigationService.returnLevel.subscribe(res => {
       if (res) {
-        this.levels = res['levels'] ? res['levels'] : res['sublevels']
+        if (res['firstRoute']) {
+          NavigationService.productListReturn.next(res['level']);
+        } else {
+          this.levels = res['level']['levels'] ? res['level']['levels'] : res['level']['sublevels']
+        }
       }
       this.selectedLevel = null;
     })

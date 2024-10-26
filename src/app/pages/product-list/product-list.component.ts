@@ -25,6 +25,13 @@ export class ProductListComponent implements OnInit {
   navigationService = inject(NavigationService);
 
   ngOnInit(): void {
+    NavigationService.productListReturn.subscribe(productList => {
+      if (productList) {
+        this.products = productList;
+      }
+      this.selectedProduct = null;
+    });
+
     this.products.push(<Product>{
       name: "Crédito",
       files: [
