@@ -19,9 +19,9 @@ export class NavigationService {
 
   static titleStack: Map<string, string> = new Map();
 
-  static selectedLevel: BehaviorSubject<any> = new BehaviorSubject(null);
+  static returnLevel: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  static title: BehaviorSubject<any> = new BehaviorSubject(null);
+  static returnTitle: BehaviorSubject<any> = new BehaviorSubject(null);
 
   addPath(path: string, level: any, title: string) {
     if (path.trim()) {
@@ -52,8 +52,8 @@ export class NavigationService {
         const title = NavigationService.titleStack.get(NavigationService.pathStack[NavigationService.pathStack.length - 1]) || '';
         const route = NavigationService.pathStack[NavigationService.pathStack.length - 1];
 
-        NavigationService.selectedLevel.next(selectedLevel);
-        NavigationService.title.next(title);
+        NavigationService.returnLevel.next(selectedLevel);
+        NavigationService.returnTitle.next(title);
 
         this.router.navigate([route], { relativeTo: this.activatedRoute });
       }

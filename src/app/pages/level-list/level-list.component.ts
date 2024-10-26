@@ -26,12 +26,12 @@ export class LevelListComponent implements OnInit {
   pathSegments: string[] = [];
 
   ngOnInit(): void {
-    NavigationService.selectedLevel.subscribe(res => {
+    NavigationService.returnLevel.subscribe(res => {
       if (res) {
         this.selectedLevel = res;
       }
     })
-    NavigationService.title.subscribe(res => {
+    NavigationService.returnTitle.subscribe(res => {
       if (res) {
         this.title = res;
       }
