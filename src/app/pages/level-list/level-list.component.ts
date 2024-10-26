@@ -29,11 +29,15 @@ export class LevelListComponent implements OnInit {
     NavigationService.returnLevel.subscribe(res => {
       if (res) {
         this.selectedLevel = res;
+      } else {
+        this.selectedLevel = null;
       }
     })
     NavigationService.returnTitle.subscribe(res => {
       if (res) {
         this.title = res;
+      } else {
+        this.title = null;
       }
     })
   }

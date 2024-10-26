@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Level } from '../models/level.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,9 @@ export class NavigationService {
 
   static titleStack: Map<string, string> = new Map();
 
-  static returnLevel: BehaviorSubject<any> = new BehaviorSubject(null);
+  static returnLevel: Subject<any> = new Subject();
 
-  static returnTitle: BehaviorSubject<any> = new BehaviorSubject(null);
+  static returnTitle: Subject<any> = new Subject();
 
   addPath(path: string, level: any, title: string) {
     if (path.trim()) {
@@ -52,10 +52,19 @@ export class NavigationService {
         const title = NavigationService.titleStack.get(NavigationService.pathStack[NavigationService.pathStack.length - 1]) || '';
         const route = NavigationService.pathStack[NavigationService.pathStack.length - 1];
 
-        NavigationService.returnLevel.next(selectedLevel);
-        NavigationService.returnTitle.next(title);
+        if (selectedLevel) {
+          NavigationService.returnLevel.next(selectedLevel);
+        }
 
-        this.router.navigate([route], { relativeTo: this.activatedRoute });
+        if (title) {
+          NavigationService.returnTitle.next(title);
+        }
+
+        if (route) {
+          this.router.navigate([route], { relativeTo: this.activatedRoute });
+        } else {
+          this.router.navigate(['/home'], { replaceUrl: true})
+        }
       }
     }
   }
