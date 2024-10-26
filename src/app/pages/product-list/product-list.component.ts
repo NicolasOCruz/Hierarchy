@@ -123,7 +123,7 @@ export class ProductListComponent implements OnInit {
   openProduct(product: Product) : void {
     this.selectedProduct = product;
     const sanitizedLevel = SanitizeRouteService.sanitize(this.selectedProduct.name);
-    //this.navigationService.addPath(sanitizedLevel, this.selectedProduct, this.selectedProduct.name);
+    this.navigationService.addPath(sanitizedLevel, this.selectedProduct, this.selectedProduct.name);
   }
 
   goBack() : void {

@@ -28,10 +28,9 @@ export class LevelListComponent implements OnInit {
   ngOnInit(): void {
     NavigationService.returnLevel.subscribe(res => {
       if (res) {
-        this.selectedLevel = res;
-      } else {
-        this.selectedLevel = null;
+        this.levels = res['levels'] ? res['levels'] : res['sublevels']
       }
+      this.selectedLevel = null;
     })
     NavigationService.returnTitle.subscribe(res => {
       if (res) {
