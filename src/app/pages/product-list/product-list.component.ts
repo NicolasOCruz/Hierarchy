@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { LevelListComponent } from "../level-list/level-list.component";
 import { Level } from '../../shared/models/level.model';
 import { FileComponent } from '../file/file.component';
+import { SanitizeRouteService } from '../../shared/services/sanitize-route.service';
+import { NavigationService } from '../../shared/services/navigation.service';
 
 @Component({
   selector: 'app-product-list',
@@ -18,7 +20,9 @@ export class ProductListComponent implements OnInit {
 
   selectedProduct!: Product | null;
 
-  router = inject(Router)
+  router = inject(Router);
+
+  navigationService = inject(NavigationService);
 
   ngOnInit(): void {
     this.products.push(<Product>{
@@ -118,6 +122,8 @@ export class ProductListComponent implements OnInit {
 
   openProduct(product: Product) : void {
     this.selectedProduct = product;
+    const sanitizedLevel = SanitizeRouteService.sanitize(this.selectedProduct.name);
+    this.navigationService.addPath(sanitizedLevel, this.selectedProduct, this.selectedProduct.name);
   }
 
   goBack() : void {
