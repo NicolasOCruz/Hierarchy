@@ -114,7 +114,6 @@ export class ProductListComponent implements OnInit {
         }
       ]
     })
-    console.log(this.products)
   }
 
   openProduct(product: Product) : void {
