@@ -32,9 +32,6 @@ export class NavigationService {
       NavigationService.levelStack.set(newRoute, level);
       NavigationService.titleStack.set(newRoute, title);
 
-      NavigationService.selectedLevel.next(level);
-      NavigationService.title.next(title);
-
       this.getRoute(newRoute);
     }
   }

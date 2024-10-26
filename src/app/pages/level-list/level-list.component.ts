@@ -27,10 +27,14 @@ export class LevelListComponent implements OnInit {
 
   ngOnInit(): void {
     NavigationService.selectedLevel.subscribe(res => {
-      console.log(res)
+      if (res) {
+        this.selectedLevel = res;
+      }
     })
     NavigationService.title.subscribe(res => {
-      this.title = res;
+      if (res) {
+        this.title = res;
+      }
     })
   }
 
