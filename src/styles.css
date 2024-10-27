@@ -40,3 +40,15 @@ body {
 ul {
     list-style-type: none;
 }
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-end {
+    justify-content: flex-end;
+}
+
+button {
+    margin-right: 10%;
+}
