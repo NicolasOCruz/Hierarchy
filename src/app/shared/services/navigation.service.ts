@@ -14,12 +14,27 @@ export class NavigationService {
   private product!: Product;
 
   levelsStack: Level[] = [];
+  static pathStack: string[] = [];
 
   private currentLevelSubject = new BehaviorSubject<Level | null>(null);
   currentLevel$ = this.currentLevelSubject.asObservable();
 
   private isProductListVisibleSubject = new BehaviorSubject<boolean>(true);
   isProductListVisible$ = this.isProductListVisibleSubject.asObservable();
+
+  router = inject(Router);
+
+  addPath(path: string) {
+    if (path.trim()) {
+      const currentRoute = NavigationService.pathStack[NavigationService.pathStack.length - 1] || '';
+  
+      const newRoute = `${currentRoute}/${path.trim()}`;
+
+      NavigationService.pathStack.push(newRoute);
+
+      console.log(NavigationService.pathStack);
+    }
+  }
 
   setProduct(product: any) {
     this.product = product;
@@ -34,6 +49,10 @@ export class NavigationService {
   }
 
   goBack() {
+    if (NavigationService.pathStack.length > 1) {
+      NavigationService.pathStack.pop();
+    }
+
     if (this.levelsStack.length > 1) {
       this.levelsStack.pop();
       const previousLevel = this.levelsStack[this.levelsStack.length - 1];
@@ -41,14 +60,13 @@ export class NavigationService {
     } else {
       this.isProductListVisibleSubject.next(true);
     }
+    console.log(NavigationService.pathStack);
   }
 
-  // Retorna a lista de produtos
   showProductList() {
     this.isProductListVisibleSubject.next(true);
   }
 
-  // Retorna o produto atual (se necessário em outros componentes)
   getProduct() {
     return this.product;
   }

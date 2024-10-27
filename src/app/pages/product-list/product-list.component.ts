@@ -122,12 +122,12 @@ export class ProductListComponent implements OnInit {
         }
       ]
     })
+    this.navigationService.addPath(SanitizeRouteService.sanitize(this.router.url));
   }
 
   openProduct(product: Product) : void {
     this.selectedProduct = product;
-    const sanitizedLevel = SanitizeRouteService.sanitize(product.name);
-    console.log(sanitizedLevel)
+    this.navigationService.addPath(SanitizeRouteService.sanitize(product.name));
     this.navigationService.setProduct(product);
   }
 

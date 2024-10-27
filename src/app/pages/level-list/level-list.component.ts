@@ -30,10 +30,8 @@ export class LevelListComponent implements OnInit {
   ngOnInit(): void {
     this.navigationService.currentLevel$.subscribe(level => {
       if (level) {
-        const sanitizedLevel = SanitizeRouteService.sanitize(level.name);
-        console.log(sanitizedLevel)
+        this.selectedLevel = level;
       }
-      this.selectedLevel = level;
     });
   }
 
@@ -45,8 +43,10 @@ export class LevelListComponent implements OnInit {
     return level?.files ? level.files.length > 0 : false;
   }
 
-  goToSublevel(sublevel: Level) {
-    this.navigationService.goToSublevel(sublevel);
+  goToSublevel(level: Level) {
+    const sanitizedLevel = SanitizeRouteService.sanitize(level.name);
+    this.navigationService.addPath(sanitizedLevel);
+    this.navigationService.goToSublevel(level);
   }
 
   goBack() {
