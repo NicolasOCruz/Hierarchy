@@ -30,7 +30,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.products.push(<Product>{
-      name: "Crédito",
+      name: "INSS",
       files: [
         {
           name: "RG"
@@ -39,7 +39,7 @@ export class ProductListComponent implements OnInit {
     })
 
     this.products.push(<Product>{
-      name: "Cartão",
+      name: "Crédito",
       levels: [
         {
           name: "Consignado",
@@ -79,31 +79,31 @@ export class ProductListComponent implements OnInit {
       name: "Consórcio",
       levels: [
          {
-          name: "Consórcio Renovado",
+          name: "Imobiliário",
           levels: [
              {
               name: "Consórcio Agência",
               levels: [
                  {
-                  name: "Agência Local",
+                  name: "Agência Física",
                   files: [
                     {
-                      name: "Local PDF"
+                      name: "Consórcio Físico PDF"
                     }
                   ]
                 },
                  {
-                  name: "Agência Remota",
+                  name: "Agência Digital",
                   files: [
                     {
-                      name: "Remota PDF"
+                      name: "Consórcio Digital PDF"
                     }
                   ]
                 }
               ]
             },
              {
-              name: "Consórcio Digital",
+              name: "Consórcio Parceiro",
               files: [
                 {
                   name: "Digital PDF"
@@ -113,7 +113,7 @@ export class ProductListComponent implements OnInit {
           ]
         },
         {
-          name: "Consórcio Novo",
+          name: "Veículo",
           files: [
             {
               name: "Contrato de Parcelas PDF"
