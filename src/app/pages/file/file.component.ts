@@ -10,4 +10,6 @@ import { Component, Input } from '@angular/core';
 export class FileComponent {
 
   @Input('file') file?: File;
+  @Input('title') title?: string | null;
+
 }

@@ -1,31 +1,29 @@
-@if (!selectedProduct) {
-    <div class="container col-4">
-        <h1>Produtos</h1>
-        @for (product of products; track $index) {
-            <ul>
-              <li>
-                <div class="row">
-                  <div class="col-8">
-                    {{ product.name }}
-                  </div>
-                  <div class="col-4">
-                    <button (click)="openProduct(product)">></button>
-                  </div>
-                </div>
-              </li>
-              <hr>
-            </ul>
-        }
-    </div>
-} @else {
-    @if (hasFiles(selectedProduct)) {
-      <div class="container col-4">
-        <h1>{{ selectedProduct.name }}</h1>
-        @for (file of selectedProduct?.files; track $index) {
-          <app-file [file]="file"></app-file>
-        }
+<div *ngIf="(isProductListVisible | async)">
+  <div class="container col-4">
+    <h1>Produtos</h1>
+    <div *ngFor="let product of products">
+      <div class="row">
+        <div class="col-8">
+          {{ product.name }}
+        </div>
+        <div class="col-4">
+          <button (click)="openProduct(product)">></button>
+        </div>
       </div>
-    } @else {
-      <app-level-list [levels]="selectedProduct.levels" [title]="selectedProduct.name"></app-level-list>
-    }
-}
+      <hr>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!(isProductListVisible | async) && selectedProduct">
+  <div *ngIf="hasFiles(selectedProduct); else noFiles">
+    <div class="container col-4">
+      <div *ngFor="let file of selectedProduct?.files">
+        <app-file [file]="file" [title]="selectedProduct.name"></app-file>
+      </div>
+    </div>
+  </div>
+  <ng-template #noFiles>
+    <app-level-list [title]="selectedProduct.name"></app-level-list>
+  </ng-template>
+</div>

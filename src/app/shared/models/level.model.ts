@@ -3,7 +3,7 @@ import { Tag } from "./tag.model";
 export interface Level {
     request?: Request,
     name: string,
-    sublevels?: Level[],
+    levels?: Level[],
     files?: File[],
     tag?: Tag
 }

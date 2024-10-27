@@ -1,19 +1,18 @@
 <div class="container col-4">
-    <h1>{{ title }}</h1>
-    @if (selectedLevel) {
-        @if (hasFiles(selectedLevel)) {
-            @for (file of selectedLevel.files; track $index) {
-                <!-- Renderize arquivos do nível selecionado -->
+    <div *ngIf="selectedLevel">
+        <h1>{{ selectedLevel.name }}</h1>
+
+        <div *ngIf="selectedLevel.levels">
+            <div *ngFor="let level of selectedLevel.levels">
+                <app-level [level]="level" (onSelect)="goToSublevel(level)"></app-level>
+            </div>
+        </div>
+      
+        <div *ngIf="selectedLevel.files">
+            <div *ngFor="let file of selectedLevel.files">
                 <app-file [file]="file"></app-file>
-            }
-        } @else {
-            @for (sublevel of selectedLevel.sublevels; track $index) {
-                <app-level [level]="sublevel" (onSelect)="searchLevel($event)"></app-level>
-            }
-        }
-    } @else {
-        @for (level of levels; track $index) {
-            <app-level [level]="level" (onSelect)="searchLevel($event)"></app-level>
-        }
-    }
+            </div>
+        </div>
+    </div>
 </div>
+

@@ -6,58 +6,58 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SanitizeRouteService } from '../../shared/services/sanitize-route.service';
 import { NavigationService } from '../../shared/services/navigation.service';
 import { Subject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-level-list',
   standalone: true,
-  imports: [FileComponent, LevelComponent],
+  imports: [FileComponent, LevelComponent, CommonModule],
   templateUrl: './level-list.component.html',
   styleUrl: './level-list.component.css'
 })
 export class LevelListComponent implements OnInit {
 
-  @Input('levels') levels?: Level[] | null;
   @Input('title') title?: string | null;
 
   navigationService = inject(NavigationService);
-  selectedLevel!: Level | null;
+  selectedLevel!: Product | Level | null;
 
   router = inject(Router);
   activateRoute = inject(ActivatedRoute);
   pathSegments: string[] = [];
 
   ngOnInit(): void {
-    NavigationService.returnLevel.subscribe(res => {
-      if (res) {
-        if (res['firstRoute']) {
-          NavigationService.productListReturn.next(res['level']);
-        } else {
-          this.levels = res['level']['levels'] ? res['level']['levels'] : res['level']['sublevels']
-        }
+    this.navigationService.currentLevel$.subscribe(level => {
+      if (level) {
+        const sanitizedLevel = SanitizeRouteService.sanitize(level.name);
+        console.log(sanitizedLevel)
       }
-      this.selectedLevel = null;
-    })
-    NavigationService.returnTitle.subscribe(res => {
-      if (res) {
-        this.title = res;
-      } else {
-        this.title = null;
-      }
-    })
-  }
-
-  searchLevel(level: Level) {
-    this.selectedLevel = level;
-    this.title = level.name;
-    const sanitizedLevel = SanitizeRouteService.sanitize(level.name);
-    this.navigationService.addPath(sanitizedLevel, level, level.name);
+      this.selectedLevel = level;
+    });
   }
 
   hasLevels(level: Level) : boolean {
-    return level.sublevels ? level.sublevels?.length > 0 : false;
+    return level.levels ? level.levels?.length > 0 : false;
   }
 
   hasFiles(level: Level) : boolean {
     return level?.files ? level.files.length > 0 : false;
+  }
+
+  goToSublevel(sublevel: Level) {
+    this.navigationService.goToSublevel(sublevel);
+  }
+
+  goBack() {
+    this.navigationService.goBack();
+  }
+
+  hasPreviousLevel(): boolean {
+    return this.navigationService.levelsStack.length > 1;
+  }
+
+  showProductList() {
+    this.navigationService.showProductList();
   }
 }

@@ -6,32 +6,29 @@ import { Level } from '../../shared/models/level.model';
 import { FileComponent } from '../file/file.component';
 import { SanitizeRouteService } from '../../shared/services/sanitize-route.service';
 import { NavigationService } from '../../shared/services/navigation.service';
+import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [LevelListComponent, FileComponent],
+  imports: [LevelListComponent, FileComponent, AsyncPipe, CommonModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
 
-  products: Product[] = [];
-
   selectedProduct!: Product | null;
+
+  products: Product[] = [];
 
   router = inject(Router);
 
   navigationService = inject(NavigationService);
 
-  ngOnInit(): void {
-    NavigationService.productListReturn.subscribe(productList => {
-      if (productList) {
-        this.products = productList;
-      }
-      this.selectedProduct = null;
-    });
+  isProductListVisible = this.navigationService.isProductListVisible$;
 
+
+  ngOnInit(): void {
     this.products.push(<Product>{
       name: "Crédito",
       files: [
@@ -46,13 +43,13 @@ export class ProductListComponent implements OnInit {
       levels: [
         {
           name: "Consignado",
-          sublevels: [
+          levels: [
             {
               name: "Contratação Crédito Consignado",
-              sublevels: [
+              levels: [
                 {
                   name: "Contrato Crédito Consignado",
-                  sublevels: [
+                  levels: [
                     {
                       name: "Termo",
                       files: [
@@ -83,10 +80,10 @@ export class ProductListComponent implements OnInit {
       levels: [
          {
           name: "Consórcio Renovado",
-          sublevels: [
+          levels: [
              {
               name: "Consórcio Agência",
-              sublevels: [
+              levels: [
                  {
                   name: "Agência Local",
                   files: [
@@ -129,14 +126,11 @@ export class ProductListComponent implements OnInit {
 
   openProduct(product: Product) : void {
     this.selectedProduct = product;
-    const sanitizedLevel = SanitizeRouteService.sanitize(this.selectedProduct.name);
-    this.navigationService.addPath(sanitizedLevel, this.selectedProduct, this.selectedProduct.name);
+    const sanitizedLevel = SanitizeRouteService.sanitize(product.name);
+    console.log(sanitizedLevel)
+    this.navigationService.setProduct(product);
   }
 
-  goBack() : void {
-    this.selectedProduct = null;
-  }
-  
   hasFiles(level: Level) : boolean {
     return level?.files ? level.files.length > 0 : false;
   }

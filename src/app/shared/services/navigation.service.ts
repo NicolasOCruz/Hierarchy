@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Level } from '../models/level.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { Product } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,63 +11,45 @@ export class NavigationService {
 
   constructor() { }
 
-  router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
+  private product!: Product;
 
-  static pathStack: string[] = [];
+  levelsStack: Level[] = [];
 
-  static levelStack: Map<string, unknown> = new Map();
+  private currentLevelSubject = new BehaviorSubject<Level | null>(null);
+  currentLevel$ = this.currentLevelSubject.asObservable();
 
-  static titleStack: Map<string, string> = new Map();
+  private isProductListVisibleSubject = new BehaviorSubject<boolean>(true);
+  isProductListVisible$ = this.isProductListVisibleSubject.asObservable();
 
-  static returnLevel: Subject<any> = new Subject();
+  setProduct(product: any) {
+    this.product = product;
+    this.levelsStack = product.levels ? [product] : [];
+    this.currentLevelSubject.next(product);
+    this.isProductListVisibleSubject.next(false);
+  }
 
-  static returnTitle: Subject<any> = new Subject();
+  goToSublevel(sublevel: Level) {
+    this.levelsStack.push(sublevel);
+    this.currentLevelSubject.next(sublevel);
+  }
 
-  static productListReturn: Subject<any> = new Subject();
-
-
-  addPath(path: string, level: any, title: string) {
-    if (path.trim()) {
-      const currentRoute = this.router.url;
-      const newRoute = `${currentRoute}/${path.trim()}`;
-
-      NavigationService.pathStack.push(newRoute);
-      NavigationService.levelStack.set(newRoute, level);
-      NavigationService.titleStack.set(newRoute, title);
-
-      this.getRoute(newRoute);
+  goBack() {
+    if (this.levelsStack.length > 1) {
+      this.levelsStack.pop();
+      const previousLevel = this.levelsStack[this.levelsStack.length - 1];
+      this.currentLevelSubject.next(previousLevel);
+    } else {
+      this.isProductListVisibleSubject.next(true);
     }
   }
 
-  getRoute(newRoute: string) {
-    this.router.navigate([newRoute], { relativeTo: this.activatedRoute });
+  // Retorna a lista de produtos
+  showProductList() {
+    this.isProductListVisibleSubject.next(true);
   }
 
-  goBack(): void {
-    if (NavigationService.pathStack.length > 0) {
-      const popRoute = NavigationService.pathStack.pop();
-
-      if (popRoute) {
-        NavigationService.levelStack.delete(popRoute);
-        NavigationService.titleStack.delete(popRoute);
-
-        const selectedLevel = NavigationService.levelStack.get(NavigationService.pathStack[NavigationService.pathStack.length - 1]);
-        const title = NavigationService.titleStack.get(NavigationService.pathStack[NavigationService.pathStack.length - 1]) || '';
-        const route = NavigationService.pathStack[NavigationService.pathStack.length - 1];
-
-        NavigationService.returnLevel.next({level: selectedLevel, firstRoute: !route});
-
-        if (title) {
-          NavigationService.returnTitle.next(title);
-        }
-
-        if (route) {
-          this.router.navigate([route], { relativeTo: this.activatedRoute });
-        } else {
-          this.router.navigate(['/home'], { replaceUrl: true })
-        }
-      }
-    }
+  // Retorna o produto atual (se necessário em outros componentes)
+  getProduct() {
+    return this.product;
   }
 }
